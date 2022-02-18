@@ -1,0 +1,22 @@
+{
+  "Componente Funcional": {
+    "scope": "javascript",
+    "prefix": "compfunc",
+    "body": [
+      "/* eslint-disable prettier/prettier */",
+      "import React from 'react'",
+      "import {SafeAreaView, Text} from 'react-native'",
+      "",
+      "export default props => {",
+      "   return (",
+      "      <SafeAreaView>",
+      "         <Text>",
+      "            {props.texto}",
+      "          </Text>",
+      "      </SafeAreaView>",
+      "    );",
+      "};"
+    ],
+    "description": "Log output to console"
+  }
+}
