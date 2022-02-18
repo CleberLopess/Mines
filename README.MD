@@ -37,4 +37,3 @@ YARN IOS
 Feito com ❤️ por Cleber Lopes 👋🏽 Entre em contato!
 
 - [Linkedin](https://www.linkedin.com/in/cleber-lopes-a72241151/)
-  <img src="https://img.shields.io/static/v1?label=&message=LinkeDin&color=#0a66c2&logo=src/img/linkedin.svg"/>
