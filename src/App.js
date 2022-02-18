@@ -1,7 +1,11 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet, Text, View, Alert} from 'react-native';
 import params from './Params';
 import MineField from './components/MineField';
+import Header from './components/Header';
+import LevelSelection from './screens/LevelSelection';
+
 import {
   createMinedBoard,
   cloneBoard,
@@ -32,6 +36,7 @@ export default class App extends Component {
       board: createMinedBoard(rows, cols, this.minesAmount()),
       won: false,
       lost: false,
+      showLevelSelection: false,
     };
   };
 
@@ -53,30 +58,40 @@ export default class App extends Component {
     this.setState({board, lost, won});
   };
 
-  onSelectFiel = (row, column) => {
+  onSelectField = (row, column) => {
     const board = cloneBoard(this.state.board);
     invertFlag(board, row, column);
     const won = wonGame(board);
 
     if (won) {
-      Alert.alert('Parabens', 'Voce Ganhou!');
+      Alert.alert('Parabéns', 'Você Ganhou!');
     }
 
     this.setState({board, won});
   };
 
+  onLevelSelected = level => {
+    params.difficultLevel = level;
+    this.setState(this.createState);
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.welcome}>Iniciando Mines!</Text>
-        <Text style={styles.welcome}>
-          Tamanho da grade: {params.getColumnsAmount()}x{params.getRowsAmount()}
-        </Text>
+        <LevelSelection
+          isVisible={this.state.showLevelSelection}
+          onLevelSelected={this.onLevelSelected}
+          onCancel={() => this.setState({showLevelSelection: false})}
+        />
+        <Header
+          flagsLeft={this.minesAmount() - flagsUsed(this.state.board)}
+          onNewGame={() => this.setState(this.createState())} onFlagPress={() => this.setState({showLevelSelection: true})}
+        />
         <View>
           <MineField
             board={this.state.board}
             onOpenField={this.onOpenField}
-            onSelectFiel={this.onSelectFiel}
+            onSelectField={this.onSelectField}
           />
         </View>
       </SafeAreaView>

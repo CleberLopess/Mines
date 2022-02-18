@@ -50,13 +50,13 @@ const cloneBoard = board => {
 };
 
 //pega os vizinhos
-const getNeighbors = (board, row, colomn) => {
+const getNeighbors = (board, row, column) => {
   const neighbors = [];
-  const rows = [row - 1, row + 1];
-  const colomns = [colomn - 1, colomn + 1];
+  const rows = [row - 1, row, row + 1];
+  const columns = [column - 1, column, column + 1];
   rows.forEach(r => {
-    colomns.forEach(c => {
-      const diferent = r !== row || c !== colomn;
+    columns.forEach(c => {
+      const diferent = r !== row || c !== column;
       const validRow = r >= 0 && r < board.length;
       const validColumn = c >= 0 && c < board[0].length;
       if (diferent && validRow && validColumn) {
@@ -68,24 +68,24 @@ const getNeighbors = (board, row, colomn) => {
 };
 
 //pega oss vizinhos salvos da mina
-const safeNeighborhood = (board, row, colomn) => {
+const safeNeighborhood = (board, row, column) => {
   const safes = (result, neighbor) => result && !neighbor.mined;
-  return getNeighbors(board, row, colomn).reduce(safes, true);
+  return getNeighbors(board, row, column).reduce(safes, true);
 };
 
 //responsavel por abrir o campo
-const openField = (board, row, colomn) => {
-  const field = board[row][colomn];
+const openField = (board, row, column) => {
+  const field = board[row][column];
   if (!field.opened) {
     field.opened = true;
     if (field.mined) {
       field.exploded = true;
-    } else if (safeNeighborhood(board, row, colomn)) {
-      getNeighbors(board, row, colomn).forEach(n =>
-        openField(board, n.row, n.colomn),
+    } else if (safeNeighborhood(board, row, column)) {
+      getNeighbors(board, row, column).forEach(n =>
+        openField(board, n.row, n.column),
       );
     } else {
-      const neighbors = getNeighbors(board, row, colomn);
+      const neighbors = getNeighbors(board, row, column);
       field.nearMines = neighbors.filter(n => n.mined).length;
     }
   }
